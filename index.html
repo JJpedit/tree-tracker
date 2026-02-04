@@ -45,20 +45,28 @@
 </div>
 <script>
   (function() {
-    const start = new Date("2026-02-04T00:00:00");
-    const base = 210; 
-    const goal = 1000;
+    // START SETTINGS
+    // Today's Date & Time
+    const start = new Date("2026-02-04T14:50:00"); 
+    const base = 0; 
+    const goal = 500; // Bar hits 100% at 500 trees
+
     function update() {
       const now = new Date();
       const mins = (now - start) / 60000;
-      // Logic: 2 trees per 9 hours (540 mins)
-      const added = Math.floor((mins / 540) * 2);
+      
+      // LOGIC: 2 trees every 1 hour (60 mins)
+      // This means 1 tree every 30 minutes
+      const added = Math.floor(mins / 30);
       const total = base + added;
+      
       const p = Math.min((total / goal) * 100, 100).toFixed(1);
+      
       document.getElementById('count').innerText = total.toLocaleString() + " Trees";
       document.getElementById('fill').style.width = p + "%";
       document.getElementById('pct').innerText = p + "%";
     }
+    
     setTimeout(update, 200);
     setInterval(update, 60000);
   })();
