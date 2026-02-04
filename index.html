@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    background: transparent; overflow: hidden;
+  }
+  .widget {
+    width: 90%; max-width: 420px; text-align: center;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+  }
+  .header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 8px; padding: 0 5px;
+  }
+  .left { color: #1b5e20; font-weight: 800; font-size: 15px; }
+  .right { color: #444; font-weight: 600; font-size: 14px; }
+  .bar-bg {
+    background-color: #e8f5e9; border-radius: 25px; height: 24px;
+    width: 100%; border: 1.5px solid #c8e6c9; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; width: 0%; background: linear-gradient(90deg, #66bb6a, #2e7d32);
+    border-radius: 25px; transition: width 3s ease-in-out;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pct { color: white; font-size: 10px; font-weight: 900; }
+  .footer {
+    margin-top: 10px; font-size: 9px; color: #bbb;
+    text-transform: uppercase; letter-spacing: 0.8px;
+  }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="header">
+    <div class="left">Every $2 = 1 Tree 🌲</div>
+    <div class="right" id="count">0 Trees</div>
+  </div>
+  <div class="bar-bg"><div class="bar-fill" id="fill"><span class="pct" id="pct"></span></div></div>
+  <div class="footer">made by Levi and Jaittran</div>
+</div>
+<script>
+  (function() {
+    const start = new Date("2026-02-04T00:00:00");
+    const base = 210; 
+    const goal = 1000;
+    function update() {
+      const now = new Date();
+      const mins = (now - start) / 60000;
+      // Logic: 2 trees per 9 hours (540 mins)
+      const added = Math.floor((mins / 540) * 2);
+      const total = base + added;
+      const p = Math.min((total / goal) * 100, 100).toFixed(1);
+      document.getElementById('count').innerText = total.toLocaleString() + " Trees";
+      document.getElementById('fill').style.width = p + "%";
+      document.getElementById('pct').innerText = p + "%";
+    }
+    setTimeout(update, 200);
+    setInterval(update, 60000);
+  })();
+</script>
+</body>
+</html>
