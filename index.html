@@ -2,130 +2,106 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body, html {
     margin: 0; padding: 0; width: 100%; height: 100%;
     display: flex; justify-content: center; align-items: center;
     background: transparent; overflow: hidden;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
 
   .widget-container {
     width: 90%;
-    max-width: 420px;
+    max-width: 400px;
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    padding: 20px;
   }
 
-  /* Grows when you hover over it */
-  .widget-container:hover {
-    transform: scale(1.1);
-  }
-
-  .header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-  }
-
-  /* Displays your email at the top */
-  .email-display {
-    color: #1b5e20;
-    font-weight: 800;
-    font-size: 15px;
-    letter-spacing: -0.2px;
-  }
-
-  .bar-bg {
-    background-color: #e8f5e9;
-    border-radius: 25px;
-    height: 26px;
+  /* Style for the buttons */
+  .email-button {
+    display: block;
     width: 100%;
-    border: 1.5px solid #c8e6c9;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background: linear-gradient(135deg, #66bb6a 0%, #2e7d32 100%);
+    color: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
   }
 
-  .bar-fill {
-    height: 100%;
-    width: 0%; 
-    background: linear-gradient(90deg, #66bb6a, #2e7d32);
-    border-radius: 25px;
-    transition: width 2s ease-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Zoom effect on hover */
+  .email-button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   }
 
-  .pct-label { color: white; font-size: 10px; font-weight: 900; }
+  .email-button:active {
+    transform: scale(0.95);
+  }
 
-  .footer {
-    margin-top: 10px;
-    font-size: 9px;
-    color: #bbb;
+  .footer-credit {
+    margin-top: 15px;
+    font-size: 10px;
+    color: #888;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 1px;
+    font-weight: 600;
   }
 
-  #copy-toast {
-    position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
-    background: #1b5e20; color: white; padding: 6px 15px; border-radius: 20px;
-    font-size: 11px; opacity: 0; transition: opacity 0.3s; pointer-events: none;
-    font-family: sans-serif;
+  /* Popup Toast */
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 100;
   }
 </style>
 </head>
-<body onclick="copyEmails()">
+<body>
 
 <div class="widget-container">
-  <div class="header">
-    <div class="email-display">Jaittran.k@gmail.com</div>
-  </div>
   
-  <div class="bar-bg">
-    <div class="bar-fill" id="fill">
-      <span class="pct-label" id="pct"></span>
-    </div>
-  </div>
+  <button class="email-button" onclick="copyText('Jaittran.k@gmail.com')">
+    Email Gmail
+  </button>
 
-  <div class="footer">
-    made by Levi and Jaittran
+  <button class="email-button" onclick="copyText('Jaittran.k@hotmail.com')">
+    Email Hotmail
+  </button>
+
+  <div class="footer-credit">
+    made by Levi and Jai
   </div>
 </div>
 
-<div id="copy-toast">Emails Copied to Clipboard!</div>
+<div id="toast">Copied to clipboard!</div>
 
 <script>
-  function copyEmails() {
-    const emails = "Jaittran.k@gmail.com, Jaittran.k@hotmail.com";
-    navigator.clipboard.writeText(emails).then(() => {
-      const toast = document.getElementById('copy-toast');
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById('toast');
+      toast.innerText = text + " Copied!";
       toast.style.opacity = '1';
-      setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2000);
     });
   }
-
-  (function() {
-    // Math logic: Bar fills up by 2% every 1 hour (24 hours = 48%)
-    const start = new Date("2026-02-06T00:00:00");
-    const goal = 100; // 100% Goal
-
-    function update() {
-      const now = new Date();
-      const hoursPassed = (now - start) / 3600000;
-      
-      // Growth: 2 units every 1 hour
-      const totalProgress = Math.min(hoursPassed * 2, 100).toFixed(1);
-
-      document.getElementById('fill').style.width = totalProgress + "%";
-      document.getElementById('pct').innerText = totalProgress + "%";
-    }
-
-    update();
-    setInterval(update, 60000);
-  })();
 </script>
 
 </body>
