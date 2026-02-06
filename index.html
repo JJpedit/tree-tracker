@@ -29,10 +29,21 @@
   }
 
   .school-logo {
-    width: 120px;
+    width: 100px;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+
+  /* New Contact Us Header */
+  .contact-header {
+    color: white;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   .email-button {
@@ -78,6 +89,8 @@
 <div class="widget-container">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTes4iuIgn6JoQekcQ4pxDJq9HqCEWcjiMCgw&s" alt="Logo" class="school-logo">
   
+  <div class="contact-header">Contact Us</div>
+  
   <button class="email-button" onclick="copyText('Jaittran.k@gmail.com')">
     Gmail Address
   </button>
@@ -97,7 +110,7 @@
   function copyText(text) {
     navigator.clipboard.writeText(text).then(() => {
       const toast = document.getElementById('toast');
-      toast.innerText = text + " Copied!";
+      toast.innerText = "Copied!";
       toast.style.opacity = '1';
       setTimeout(() => { toast.style.opacity = '0'; }, 2000);
     });
